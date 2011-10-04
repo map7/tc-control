@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+#
+# Put clients in the clients.json file.
+require 'json'
+
+file = File.read('clients.json')
+hash = JSON.parse(file)
+
+case ARGV[0]
+when "shutdown"
+  hash["clients"].each {|client|
+    puts "Shutdown #{client['name']}"
+    puts "ssh root@#{client['ip']} 'shutdown -h now'"
+    
+  }
+when "startup"
+  hash["clients"].each {|client|
+    puts "Startup #{client['name']}"
+    puts "wakeonlan #{client['mac']}" 
+  }
+else
+  puts "Usage: ./tc-control <startup/shutdown>"
+end
+
