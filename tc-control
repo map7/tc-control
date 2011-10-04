@@ -30,13 +30,8 @@ when "startup"
 when "status"
   puts "Check status of each client"
   hash["clients"].each {|client|
-    print "#{client['name']} is "
-
-    if up?(client['ip'])
-      puts "up"
-    else
-      puts "down"
-    end
+    status = up?(client['ip']) ? "up" : "down"
+    puts "#{client['name']} is #{status}"
   }
 else
   puts "Usage: ./tc-control command
