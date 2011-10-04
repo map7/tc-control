@@ -9,10 +9,8 @@ hash = JSON.parse(file)
 def up?(ip)
   result = `ping -c 1 #{ip}`
   if $?.exitstatus == 0
-    puts
     true
   else
-    puts "Already down"
     false    
   end
 end
@@ -20,7 +18,7 @@ end
 case ARGV[0]
 when "shutdown"
   hash["clients"].each {|client|
-    print "Shutdown #{client['name']}..."
+    puts "Shutdown #{client['name']}..."
     `ssh root@#{client['ip']} 'shutdown -P now'` if up?(client['ip'])
   }
 when "startup"
@@ -28,7 +26,22 @@ when "startup"
     puts "Startup #{client['name']}..."
     `wakeonlan #{client['mac']}`
   }
+when "status"
+  puts "Check status of each client"
+  hash["clients"].each {|client|
+    print "#{client['name']} is "
+
+    if up?(client['ip'])
+      puts "up"
+    else
+      puts "down"
+    end
+  }
 else
-  puts "Usage: ./tc-control <startup/shutdown>"
+  puts "Usage: ./tc-control command
+  \nCommands
+  startup\tStart thin clients in clients.json
+  shutdown\tShutdown clients in clients.json
+  status\tCheck if clients are up or down."
 end
 
