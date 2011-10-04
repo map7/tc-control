@@ -10,6 +10,8 @@ SSH & ACPID should be installed in your chroot section.
 
 You must have passwordless ssh setup as your user & root user (if you want to use it in any root scripts.
 
+If you want to start each client make sure they have Wake On Lan (WOL) setup in the BIOS of the thin client. Note: Some computers don't have this feature.
+
 Remember to build and reboot clients after you have done this.
 
 *** SSH & ACPID install
