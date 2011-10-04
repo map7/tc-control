@@ -3,7 +3,8 @@
 # Put clients in the clients.json file.
 require 'json'
 
-file = File.read('clients.json')
+path =  File.expand_path(File.dirname(__FILE__))
+file = File.read("#{path}/clients.json")
 hash = JSON.parse(file)
 
 def up?(ip)
