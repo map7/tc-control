@@ -1,0 +1,69 @@
+* tc-control
+
+tc-control allows you to startup/shutdown or see if a client is up/down.
+
+** Requirements
+
+ruby 1.8 or higher on your LTSP server.
+
+SSH & ACPID should be installed in your chroot section.
+
+You must have passwordless ssh setup as your user & root user (if you want to use it in any root scripts.
+
+Remember to build and reboot clients after you have done this.
+
+*** SSH & ACPID install
+$ sudo chroot /opt/ltsp/i386 bash
+# apt-get install sshd acpid
+
+
+*** Passwordless access for thin clients
+
+$ ssh-copy-id <thin client ip>
+$ ssh root@<thin client ip>
+copy the .ssh/authorized_keys
+exit
+
+$ sudo chroot /opt/ltsp/i386 bash
+root@ltsp:/root# mkdir .ssh
+root@ltsp:/root# chmod og-rwx .ssh
+root@ltsp:/root# vi .ssh/authorized_keys
+Paste the key in.
+
+root@ltsp:/root# chmod og-rwx .ssh/authorized_keys/
+
+root@ltsp:/root# vi /etc/ssh/sshd_config
+Uncomment '#AuthorizedKeysFile    %h/.ssh/authorized_keys'
+Save and exit
+exit chroot section
+
+
+
+
+
+
+
+** Setup
+
+Add your thin clients to the clients.json file. EG:
+
+  {
+  "clients" :[
+    {"name": "Reception","ip": "192.168.200.229","mac": "00:23:54:c1:f3:78"},
+    {"name": "Boardroom","ip": "192.168.200.218","mac": "00:27:0e:16:6f:1e"}
+  ]
+  }
+
+** Usage
+
+Start all clients
+
+  $ ./tc-control startup
+
+Shutdown all clients
+
+  $ ./tc-control shutdown
+
+Status for all clients
+
+  $ watch './tc-control status'
