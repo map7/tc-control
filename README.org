@@ -4,7 +4,10 @@ tc-control allows you to startup/shutdown or see if a client is up/down.
 
 ** Requirements
 
-ruby 1.8 or higher on your LTSP server.
+ruby 1.8 or higher on your LTSP server and rubygems1.8 or higher.
+
+json gem
+: $ sudo gem install json
 
 SSH & ACPID should be installed in your chroot section.
 
@@ -20,6 +23,8 @@ Remember to build and reboot clients after you have done this.
 
 
 *** Passwordless access for thin clients
+
+You will have to setup the root password in chroot section if you haven't already.
 
 : $ ssh-copy-id <thin client ip>
 : $ ssh root@<thin client ip>
@@ -39,6 +44,7 @@ Remember to build and reboot clients after you have done this.
 : Save and exit
 : exit chroot section
 
+rebuild image, reboot thin client.
 
 
 
