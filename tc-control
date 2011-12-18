@@ -4,7 +4,9 @@
 require 'json'
 
 path =  File.expand_path(File.dirname(__FILE__))
-file = File.read("#{path}/clients.json")
+clients_file = ARGV[1] ? ARGV[1] : "clients.json"
+
+file = File.read("#{path}/#{clients_file}")
 hash = JSON.parse(file)
 
 def up?(ip)
@@ -34,10 +36,13 @@ when "status"
     puts "#{client['name']} is #{status}"
   }
 else
-  puts "Usage: ./tc-control command
+  puts "Usage: ./tc-control command <file>
   \nCommands
   startup\tStart thin clients in clients.json
   shutdown\tShutdown clients in clients.json
-  status\tCheck if clients are up or down."
+  status\tCheck if clients are up or down.
+
+  <file> is optional - if you have a subset of
+  thin clients you want to control enter a file here."
 end
 
